@@ -1,0 +1,29 @@
+html, body {
+    height: 100%;
+    font-family: "Open Sans", sans-serif;
+}
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .12), 0 2px 4px 0 rgba(0, 0, 0, .08);
+    width: 475px;
+    height: 258px;
+    display: flex;
+}
+
+.card-left, .card-right {
+    padding: 20px;
+}
+
+.card-left {
+    background: linear-gradient(to bottom, #21c8f6, #637bff);
+    margin-right: 20px;
+}
+
+.card-right {
+    color: #888;
+}
