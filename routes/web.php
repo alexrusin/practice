@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/flexbox', function () {
+    return view('csspractice.flexbox');
+});
+
+Route::get('/cardcss', function () {
+    return view('csspractice.cardcss');
+});
