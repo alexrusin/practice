@@ -22,3 +22,7 @@ Route::get('/flexbox', function () {
 Route::get('/cardcss', function () {
     return view('csspractice.cardcss');
 });
+
+Route::get('/charts', function () {
+    return view('charts.chart-graph');
+});
