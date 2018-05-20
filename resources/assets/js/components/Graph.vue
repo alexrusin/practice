@@ -1,6 +1,9 @@
 <template>
-   
-    <canvas  width="400" height="400"></canvas>
+    <div>
+        <canvas  width="400" height="400" ref="canvas"></canvas>
+        <div class="legend" v-html="legend"></div>
+
+    </div>
   
 </template>
 
@@ -19,6 +22,12 @@
             }
         },
 
+        data() {
+            return {
+                legend:''
+            }
+        },
+
         mounted() {
 
             const data = {
@@ -26,6 +35,7 @@
                 data: {
                     labels: this.labels,
                     datasets: [{
+                        label: 'Monthly points',
                         data: this.values,
                            backgroundColor: [
                                 this.color,
@@ -38,15 +48,41 @@
                                
                            ],
                            borderWidth: 1
-                    }]
+                        },
+                        {
+                            label: 'Other points',
+                            data: [2, 50, 21],
+                             backgroundColor: [
+                                'rgba(153, 102, 255, 0.2)'
+                                
+                                
+                            ],
+
+                            borderColor: [
+                                'rgba(153, 102, 255, 1)'
+                            ],
+                              
+                            borderWidth: 1
+                        }
+                    ]
                 },
                 options: {
+                    legend:false,
                     responsive: false
                 }
             };
 
            
-            var myChart = new Chart(this.$el, data);
+            const myChart = new Chart(this.$refs.canvas, data);
+            this.legend = myChart.generateLegend();
         }
     }
 </script>
+<style>
+    .legend span {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        margin-right: 10px;
+    }
+</style>

@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 228);
+/******/ 	return __webpack_require__(__webpack_require__.s = 235);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -43302,14 +43302,21 @@ module.exports = {
 /* 225 */,
 /* 226 */,
 /* 227 */,
-/* 228 */
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(229);
+module.exports = __webpack_require__(236);
 
 
 /***/ }),
-/* 229 */
+/* 236 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -43318,27 +43325,118 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 
 
-
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('graph', __webpack_require__(230));
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('wins-graph', __webpack_require__(237));
 
 new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 	el: '#chart-app'
 });
 
 /***/ }),
-/* 230 */
+/* 237 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(12)
+/* script */
+var __vue_script__ = __webpack_require__(240)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\WinsGraph.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-dc2e82e0", Component.options)
+  } else {
+    hotAPI.reload("data-v-dc2e82e0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 238 */,
+/* 239 */,
+/* 240 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ParentGraph_vue__ = __webpack_require__(241);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ParentGraph_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ParentGraph_vue__);
+
+
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0__ParentGraph_vue___default.a.extend({
+    props: ['player', 'opponent'],
+
+    mounted: function mounted() {
+
+        this.render({
+            type: 'bar',
+            data: {
+                labels: ['Wins'],
+                datasets: [{
+                    label: this.player.name,
+                    data: [this.player.wins],
+                    backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+                    borderColor: ['rgba(255,99,132,1)'],
+                    borderWidth: 1
+                }, {
+                    label: this.opponent.name,
+                    data: [this.opponent.wins],
+                    backgroundColor: ['rgba(153, 102, 255, 0.2)'],
+
+                    borderColor: ['rgba(153, 102, 255, 1)'],
+
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: false,
+                responsive: false
+            }
+        });
+    }
+}));
+
+/***/ }),
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(231)
+  __webpack_require__(253)
 }
 var normalizeComponent = __webpack_require__(12)
 /* script */
-var __vue_script__ = __webpack_require__(233)
+var __vue_script__ = __webpack_require__(242)
 /* template */
-var __vue_template__ = __webpack_require__(234)
+var __vue_template__ = __webpack_require__(243)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -43355,7 +43453,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Graph.vue"
+Component.options.__file = "resources\\assets\\js\\components\\ParentGraph.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -43364,9 +43462,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-226d4d67", Component.options)
+    hotAPI.createRecord("data-v-4a7b41c6", Component.options)
   } else {
-    hotAPI.reload("data-v-226d4d67", Component.options)
+    hotAPI.reload("data-v-4a7b41c6", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -43377,55 +43475,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 231 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(232);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(145)("19b144d6", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-226d4d67\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Graph.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-226d4d67\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Graph.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 232 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(144)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.legend span {\n    width: 10px;\n    height: 10px;\n    display: inline-block;\n    margin-right: 10px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 233 */
+/* 242 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js__ = __webpack_require__(147);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chart_js__);
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_chart_js__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_chart_js__);
 //
 //
 //
@@ -43435,59 +43493,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: {
-        labels: {},
-        values: {},
-        color: {
-            default: 'rgba(54, 162, 235, 0.2)'
-        },
-        borderColor: {
-            default: 'rgba(54, 162, 235, 1)'
-        }
-    },
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_vue___default.a.extend({
+	data: function data() {
+		return {
+			legend: ''
+		};
+	},
 
-    data: function data() {
-        return {
-            legend: ''
-        };
-    },
-    mounted: function mounted() {
 
-        var data = {
-            type: 'line',
-            data: {
-                labels: this.labels,
-                datasets: [{
-                    label: 'Monthly points',
-                    data: this.values,
-                    backgroundColor: [this.color],
-                    borderColor: [this.borderColor],
-                    borderWidth: 1
-                }, {
-                    label: 'Other points',
-                    data: [2, 50, 21],
-                    backgroundColor: ['rgba(153, 102, 255, 0.2)'],
+	methods: {
+		render: function render(data) {
+			var myChart = new __WEBPACK_IMPORTED_MODULE_1_chart_js___default.a(this.$refs.canvas, data);
+			this.legend = myChart.generateLegend();
+		}
+	}
 
-                    borderColor: ['rgba(153, 102, 255, 1)'],
-
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                legend: false,
-                responsive: false
-            }
-        };
-
-        var myChart = new __WEBPACK_IMPORTED_MODULE_0_chart_js___default.a(this.$refs.canvas, data);
-        this.legend = myChart.generateLegend();
-    }
-});
+}));
 
 /***/ }),
-/* 234 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -43495,7 +43520,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("canvas", { ref: "canvas", attrs: { width: "400", height: "400" } }),
+    _c("canvas", { ref: "canvas", attrs: { width: "800", height: "600" } }),
     _vm._v(" "),
     _c("div", {
       staticClass: "legend",
@@ -43509,9 +43534,58 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-226d4d67", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-4a7b41c6", module.exports)
   }
 }
+
+/***/ }),
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(254);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(145)("e63c6ac2", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4a7b41c6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ParentGraph.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4a7b41c6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ParentGraph.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 254 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(144)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.legend span {\n    width: 10px;\n    height: 10px;\n    display: inline-block;\n    margin-right: 10px;\n}\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

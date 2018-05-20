@@ -26,3 +26,10 @@ Route::get('/cardcss', function () {
 Route::get('/charts', function () {
     return view('charts.chart-graph');
 });
+
+Route::get('/charts-rocket-league', function() {
+	$jeffrey = collect(['name' => 'Jeffrey', 'wins' => 50]);
+	$taylor = collect(['name' => 'Taylor', 'wins' => 8]);
+
+	return view('charts.rocket-league', compact('jeffrey', 'taylor'));
+});
