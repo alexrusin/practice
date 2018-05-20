@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<h1>{{title}}</h1>
     	<canvas  width="800" height="600" ref="canvas"></canvas>
     	<div class="legend" v-html="legend"></div>
 
@@ -31,5 +32,9 @@
         height: 10px;
         display: inline-block;
         margin-right: 10px;
+    }
+
+    h1 {
+    	font-size: 1.5em;
     }
 </style>

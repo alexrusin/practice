@@ -33,3 +33,8 @@ Route::get('/charts-rocket-league', function() {
 
 	return view('charts.rocket-league', compact('jeffrey', 'taylor'));
 });
+
+Route::get('/charts-stock', function () {
+    return view('charts.chart-stock');
+});
+

@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 199);
+/******/ 	return __webpack_require__(__webpack_require__.s = 227);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -11219,7 +11219,7 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(14).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(142).setImmediate))
 
 /***/ }),
 
@@ -11362,85 +11362,14 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
-            (typeof self !== "undefined" && self) ||
-            window;
-var apply = Function.prototype.apply;
-
-// DOM APIs, for completeness
-
-exports.setTimeout = function() {
-  return new Timeout(apply.call(setTimeout, scope, arguments), clearTimeout);
-};
-exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, scope, arguments), clearInterval);
-};
-exports.clearTimeout =
-exports.clearInterval = function(timeout) {
-  if (timeout) {
-    timeout.close();
-  }
-};
-
-function Timeout(id, clearFn) {
-  this._id = id;
-  this._clearFn = clearFn;
-}
-Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-Timeout.prototype.close = function() {
-  this._clearFn.call(scope, this._id);
-};
-
-// Does not start the time, just sets up the members needed.
-exports.enroll = function(item, msecs) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = msecs;
-};
-
-exports.unenroll = function(item) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = -1;
-};
-
-exports._unrefActive = exports.active = function(item) {
-  clearTimeout(item._idleTimeoutId);
-
-  var msecs = item._idleTimeout;
-  if (msecs >= 0) {
-    item._idleTimeoutId = setTimeout(function onTimeout() {
-      if (item._onTimeout)
-        item._onTimeout();
-    }, msecs);
-  }
-};
-
-// setimmediate attaches itself to the global object
-__webpack_require__(15);
-// On some exotic environments, it's not clear which object `setimmediate` was
-// able to install onto.  Search each possibility in the same order as the
-// `setimmediate` library.
-exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
-                       (typeof global !== "undefined" && global.setImmediate) ||
-                       (this && this.setImmediate);
-exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
-                         (typeof global !== "undefined" && global.clearImmediate) ||
-                         (this && this.clearImmediate);
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
-
-/***/ }),
-
-/***/ 143:
+/***/ 141:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(6);
-var normalizeHeaderName = __webpack_require__(209);
+var utils = __webpack_require__(5);
+var normalizeHeaderName = __webpack_require__(207);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -11456,10 +11385,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(195);
+    adapter = __webpack_require__(145);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(195);
+    adapter = __webpack_require__(145);
   }
   return adapter;
 }
@@ -11534,7 +11463,78 @@ module.exports = defaults;
 
 /***/ }),
 
-/***/ 15:
+/***/ 142:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
+            (typeof self !== "undefined" && self) ||
+            window;
+var apply = Function.prototype.apply;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, scope, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, scope, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) {
+  if (timeout) {
+    timeout.close();
+  }
+};
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(scope, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// setimmediate attaches itself to the global object
+__webpack_require__(143);
+// On some exotic environments, it's not clear which object `setimmediate` was
+// able to install onto.  Search each possibility in the same order as the
+// `setimmediate` library.
+exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
+                       (typeof global !== "undefined" && global.setImmediate) ||
+                       (this && this.setImmediate);
+exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
+                         (typeof global !== "undefined" && global.clearImmediate) ||
+                         (this && this.clearImmediate);
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
+
+/***/ }),
+
+/***/ 143:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -11724,11 +11724,11 @@ module.exports = defaults;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(10)))
 
 /***/ }),
 
-/***/ 194:
+/***/ 144:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11747,19 +11747,19 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 
-/***/ 195:
+/***/ 145:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
-var settle = __webpack_require__(210);
-var buildURL = __webpack_require__(212);
-var parseHeaders = __webpack_require__(213);
-var isURLSameOrigin = __webpack_require__(214);
-var createError = __webpack_require__(196);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(215);
+var utils = __webpack_require__(5);
+var settle = __webpack_require__(208);
+var buildURL = __webpack_require__(210);
+var parseHeaders = __webpack_require__(211);
+var isURLSameOrigin = __webpack_require__(212);
+var createError = __webpack_require__(146);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(213);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -11856,7 +11856,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(216);
+      var cookies = __webpack_require__(214);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -11935,13 +11935,13 @@ module.exports = function xhrAdapter(config) {
 
 /***/ }),
 
-/***/ 196:
+/***/ 146:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(211);
+var enhanceError = __webpack_require__(209);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -11961,7 +11961,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 /***/ }),
 
-/***/ 197:
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11974,7 +11974,7 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 198:
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12004,45 +12004,8 @@ module.exports = Cancel;
 /***/ 199:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(200);
-module.exports = __webpack_require__(227);
 
-
-/***/ }),
-
-/***/ 200:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-__webpack_require__(201);
-
-window.Vue = __webpack_require__(11);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-Vue.component('example-component', __webpack_require__(224));
-
-var app = new Vue({
-  el: '#app'
-});
-
-/***/ }),
-
-/***/ 201:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-window._ = __webpack_require__(202);
+window._ = __webpack_require__(200);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -12051,9 +12014,9 @@ window._ = __webpack_require__(202);
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(203);
+  window.$ = window.jQuery = __webpack_require__(201);
 
-  __webpack_require__(204);
+  __webpack_require__(202);
 } catch (e) {}
 
 /**
@@ -12062,7 +12025,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(205);
+window.axios = __webpack_require__(203);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -12099,7 +12062,7 @@ if (token) {
 
 /***/ }),
 
-/***/ 202:
+/***/ 200:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -29209,11 +29172,11 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(13)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(13)(module)))
 
 /***/ }),
 
-/***/ 203:
+/***/ 201:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -39585,7 +39548,7 @@ return jQuery;
 
 /***/ }),
 
-/***/ 204:
+/***/ 202:
 /***/ (function(module, exports) {
 
 /*!
@@ -41969,23 +41932,23 @@ if (typeof jQuery === 'undefined') {
 
 /***/ }),
 
-/***/ 205:
+/***/ 203:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(206);
+module.exports = __webpack_require__(204);
 
 /***/ }),
 
-/***/ 206:
+/***/ 204:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
-var bind = __webpack_require__(194);
-var Axios = __webpack_require__(208);
-var defaults = __webpack_require__(143);
+var utils = __webpack_require__(5);
+var bind = __webpack_require__(144);
+var Axios = __webpack_require__(206);
+var defaults = __webpack_require__(141);
 
 /**
  * Create an instance of Axios
@@ -42018,15 +41981,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(198);
-axios.CancelToken = __webpack_require__(222);
-axios.isCancel = __webpack_require__(197);
+axios.Cancel = __webpack_require__(148);
+axios.CancelToken = __webpack_require__(220);
+axios.isCancel = __webpack_require__(147);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(223);
+axios.spread = __webpack_require__(221);
 
 module.exports = axios;
 
@@ -42036,7 +41999,7 @@ module.exports.default = axios;
 
 /***/ }),
 
-/***/ 207:
+/***/ 205:
 /***/ (function(module, exports) {
 
 /*!
@@ -42064,16 +42027,16 @@ function isSlowBuffer (obj) {
 
 /***/ }),
 
-/***/ 208:
+/***/ 206:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(143);
-var utils = __webpack_require__(6);
-var InterceptorManager = __webpack_require__(217);
-var dispatchRequest = __webpack_require__(218);
+var defaults = __webpack_require__(141);
+var utils = __webpack_require__(5);
+var InterceptorManager = __webpack_require__(215);
+var dispatchRequest = __webpack_require__(216);
 
 /**
  * Create a new instance of Axios
@@ -42151,13 +42114,13 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ 209:
+/***/ 207:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -42171,13 +42134,13 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 /***/ }),
 
-/***/ 210:
+/***/ 208:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(196);
+var createError = __webpack_require__(146);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -42205,7 +42168,7 @@ module.exports = function settle(resolve, reject, response) {
 
 /***/ }),
 
-/***/ 211:
+/***/ 209:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42234,13 +42197,13 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 /***/ }),
 
-/***/ 212:
+/***/ 210:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -42310,13 +42273,13 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ 213:
+/***/ 211:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -42371,13 +42334,13 @@ module.exports = function parseHeaders(headers) {
 
 /***/ }),
 
-/***/ 214:
+/***/ 212:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -42447,7 +42410,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 215:
+/***/ 213:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42491,13 +42454,13 @@ module.exports = btoa;
 
 /***/ }),
 
-/***/ 216:
+/***/ 214:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -42552,13 +42515,13 @@ module.exports = (
 
 /***/ }),
 
-/***/ 217:
+/***/ 215:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -42612,18 +42575,18 @@ module.exports = InterceptorManager;
 
 /***/ }),
 
-/***/ 218:
+/***/ 216:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
-var transformData = __webpack_require__(219);
-var isCancel = __webpack_require__(197);
-var defaults = __webpack_require__(143);
-var isAbsoluteURL = __webpack_require__(220);
-var combineURLs = __webpack_require__(221);
+var utils = __webpack_require__(5);
+var transformData = __webpack_require__(217);
+var isCancel = __webpack_require__(147);
+var defaults = __webpack_require__(141);
+var isAbsoluteURL = __webpack_require__(218);
+var combineURLs = __webpack_require__(219);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -42706,13 +42669,13 @@ module.exports = function dispatchRequest(config) {
 
 /***/ }),
 
-/***/ 219:
+/***/ 217:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(6);
+var utils = __webpack_require__(5);
 
 /**
  * Transform the data for a request or a response
@@ -42734,7 +42697,7 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ 220:
+/***/ 218:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42756,7 +42719,7 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
-/***/ 221:
+/***/ 219:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42778,13 +42741,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 /***/ }),
 
-/***/ 222:
+/***/ 220:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(198);
+var Cancel = __webpack_require__(148);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -42843,7 +42806,7 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ 223:
+/***/ 221:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42878,15 +42841,52 @@ module.exports = function spread(callback) {
 
 /***/ }),
 
-/***/ 224:
+/***/ 227:
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(228);
+module.exports = __webpack_require__(232);
+
+
+/***/ }),
+
+/***/ 228:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
+__webpack_require__(199);
+
+window.Vue = __webpack_require__(11);
+
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
+Vue.component('example-component', __webpack_require__(229));
+
+var app = new Vue({
+  el: '#app'
+});
+
+/***/ }),
+
+/***/ 229:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(12)
 /* script */
-var __vue_script__ = __webpack_require__(225)
+var __vue_script__ = __webpack_require__(230)
 /* template */
-var __vue_template__ = __webpack_require__(226)
+var __vue_template__ = __webpack_require__(231)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -42926,7 +42926,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 225:
+/***/ 230:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -42956,7 +42956,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 226:
+/***/ 231:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -43000,7 +43000,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 227:
+/***/ 232:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -43008,41 +43008,13 @@ if (false) {
 /***/ }),
 
 /***/ 5:
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var bind = __webpack_require__(194);
-var isBuffer = __webpack_require__(207);
+var bind = __webpack_require__(144);
+var isBuffer = __webpack_require__(205);
 
 /*global toString:true*/
 
@@ -43342,6 +43314,34 @@ module.exports = {
   extend: extend,
   trim: trim
 };
+
+
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
 
 
 /***/ })

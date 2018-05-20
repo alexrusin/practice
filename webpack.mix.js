@@ -15,3 +15,4 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
 mix.js('resources/assets/js/chartsapp.js', 'public/js');
 mix.js('resources/assets/js/charts-rocket.js', 'public/js');
+mix.js('resources/assets/js/charts-stock.js', 'public/js');
