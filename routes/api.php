@@ -13,6 +13,21 @@ use Illuminate\Http\Request;
 |
 */
 
+/**
+ * Schema::table('users', function (Blueprint $table) {
+     $table->char('api_token', 60)->nullable()->after('remember_token');
+});
+
+as a GET parameter named api_token
+as an Authorization header (Authorization: Bearer [api_token])
+or as an auth password
+
+$guzzle = new GuzzleHttp\Client();
+$guzzle->request($url, ['api_token' => $api_token]);
+$guzzle->request($url, [], ['headers' => ['Authorization' => 'Bearer ' . $api_token]]);
+$guzzle->request($url, [], ['auth' => [$username, $api_token]]);
+ */
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
