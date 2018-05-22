@@ -12,13 +12,14 @@
 	export default Vue.extend({
 		data() {
 			return {
-				legend: ''
+				legend: '',
+				myChart: '',
 			};
 		},
 
 		methods: {
 			render(data) {
-				const myChart = new Chart(this.$refs.canvas, data);
+				this.myChart = new Chart(this.$refs.canvas, data);
 	            this.legend = myChart.generateLegend();
 			}
 		}

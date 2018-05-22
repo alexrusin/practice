@@ -43293,22 +43293,19 @@ module.exports = {
 /* 216 */,
 /* 217 */,
 /* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */,
-/* 222 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(223)
+  __webpack_require__(220)
 }
 var normalizeComponent = __webpack_require__(12)
 /* script */
-var __vue_script__ = __webpack_require__(225)
+var __vue_script__ = __webpack_require__(222)
 /* template */
-var __vue_template__ = __webpack_require__(226)
+var __vue_template__ = __webpack_require__(223)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -43347,13 +43344,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 223 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(224);
+var content = __webpack_require__(221);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -43373,7 +43370,7 @@ if(false) {
 }
 
 /***/ }),
-/* 224 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(149)(false);
@@ -43387,7 +43384,7 @@ exports.push([module.i, "\n.legend span {\n    width: 10px;\n    height: 10px;\n
 
 
 /***/ }),
-/* 225 */
+/* 222 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -43410,14 +43407,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_vue___default.a.extend({
 	data: function data() {
 		return {
-			legend: ''
+			legend: '',
+			myChart: ''
 		};
 	},
 
 
 	methods: {
 		render: function render(data) {
-			var myChart = new __WEBPACK_IMPORTED_MODULE_1_chart_js___default.a(this.$refs.canvas, data);
+			this.myChart = new __WEBPACK_IMPORTED_MODULE_1_chart_js___default.a(this.$refs.canvas, data);
 			this.legend = myChart.generateLegend();
 		}
 	}
@@ -43425,7 +43423,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 }));
 
 /***/ }),
-/* 226 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -43454,6 +43452,9 @@ if (false) {
 }
 
 /***/ }),
+/* 224 */,
+/* 225 */,
+/* 226 */,
 /* 227 */,
 /* 228 */,
 /* 229 */,
@@ -43542,7 +43543,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ParentGraph_vue__ = __webpack_require__(222);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ParentGraph_vue__ = __webpack_require__(219);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ParentGraph_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ParentGraph_vue__);
 
 

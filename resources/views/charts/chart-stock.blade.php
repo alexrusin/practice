@@ -18,10 +18,6 @@
             <div>
                 <stock-chart url="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=DRI&apikey=YPSEZZ91IMYTHW1Z"></wins-graph>
             </div>
-
-            <div>
-                <stock-chart url="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=EAT&apikey=YPSEZZ91IMYTHW1Z"></wins-graph>
-            </div>
             
         </div>
 
