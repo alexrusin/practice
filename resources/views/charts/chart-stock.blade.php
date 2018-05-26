@@ -16,7 +16,7 @@
         <div id="chart-app">
 
             <div>
-                <stock-chart url="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=DRI&apikey=YPSEZZ91IMYTHW1Z"></wins-graph>
+                <stock-chart stock-symbol="TRIP" api-key="YPSEZZ91IMYTHW1Z"></stock-chart>
             </div>
             
         </div>

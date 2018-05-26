@@ -62059,20 +62059,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_vue___default.a.extend({
-	data: function data() {
-		return {
-			legend: '',
-			myChart: ''
-		};
-	},
+  data: function data() {
+    return {
+      legend: '',
+      myChart: ''
+    };
+  },
 
 
-	methods: {
-		render: function render(data) {
-			this.myChart = new __WEBPACK_IMPORTED_MODULE_1_chart_js___default.a(this.$refs.canvas, data);
-			this.legend = myChart.generateLegend();
-		}
-	}
+  computed: {
+    displayData: function displayData() {
+      return {
+        type: 'line',
+        data: {
+          labels: this.labels,
+          datasets: [{
+            label: this.symbol,
+            data: this.data,
+            backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+            borderColor: ['rgba(54, 162, 235, 1)'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          legend: false,
+          responsive: false
+        }
+      };
+    }
+  },
+
+  methods: {
+    render: function render(data) {
+      this.myChart = new __WEBPACK_IMPORTED_MODULE_1_chart_js___default.a(this.$refs.canvas, data);
+      this.legend = this.myChart.generateLegend();
+    }
+  }
 
 }));
 
@@ -62162,7 +62184,7 @@ var normalizeComponent = __webpack_require__(12)
 /* script */
 var __vue_script__ = __webpack_require__(247)
 /* template */
-var __vue_template__ = __webpack_require__(257)
+var __vue_template__ = __webpack_require__(248)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -62224,61 +62246,90 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0__ParentGraph_vue___default.a.extend({
-    props: ['url'],
+    props: ['stockSymbol', 'apiKey'],
 
     data: function data() {
         return {
+            validData: false,
             title: '',
             timeSeries: {},
             labels: [],
             data: [],
             symbol: '',
-            time: 30
+            stockFunction: 'TIME_SERIES_DAILY_ADJUSTED',
+            time: { type: 'TIME_SERIES_DAILY_ADJUSTED', length: 90 }
         };
     },
+
+
+    computed: {
+        url: function url() {
+            return 'https://www.alphavantage.co/query?function=' + this.time.type + '&symbol=' + this.stockSymbol + '&apikey=' + this.apiKey;
+        }
+    },
+
     mounted: function mounted() {
-        var _this = this;
-
-        axios.get(this.url).then(function (response) {
-            console.log(response.data);
-            _this.symbol = response.data["Meta Data"]["2. Symbol"];
-            _this.title = response.data["Meta Data"]["1. Information"] + " for " + _this.symbol;
-            _this.timeSeries = response.data["Time Series (Daily)"];
-            _this.massageData();
-
-            _this.render({
-                type: 'line',
-                data: {
-                    labels: _this.labels,
-                    datasets: [{
-                        label: _this.symbol,
-                        data: _this.data,
-                        backgroundColor: ['rgba(54, 162, 235, 0.2)'],
-                        borderColor: ['rgba(54, 162, 235, 1)'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    legend: false,
-                    responsive: false
-                }
-            });
-        }).catch(function (error) {
-            console.log(error);
-        });
+        this.sendRequest();
     },
 
 
     methods: {
+        sendRequest: function sendRequest() {
+            var _this = this;
+
+            axios.get(this.url).then(function (response) {
+                var errorResponse = "Error Message";
+
+                if (response.data[errorResponse]) {
+                    _this.title = "There was an error retrieving data.";
+                    _this.validData = false;
+                    return;
+                }
+                _this.validData = true;
+                _this.processData(response.data);
+                _this.massageData();
+
+                _this.render(_this.displayData);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        processData: function processData(data) {
+
+            this.symbol = data["Meta Data"]["2. Symbol"];
+            this.title = data["Meta Data"]["1. Information"] + " for " + this.symbol;
+            this.stockFunction = this.time.type;
+
+            switch (this.time.type) {
+                case 'TIME_SERIES_DAILY_ADJUSTED':
+                    this.timeSeries = data["Time Series (Daily)"];
+                    break;
+                case 'TIME_SERIES_WEEKLY_ADJUSTED':
+                    this.timeSeries = data["Weekly Adjusted Time Series"];
+                    break;
+                case 'TIME_SERIES_MONTHLY_ADJUSTED':
+                    this.timeSeries = data["Monthly Adjusted Time Series"];
+                    break;
+                default:
+                case 'TIME_SERIES_DAILY_ADJUSTED':
+                    this.timeSeries = data["Time Series (Daily)"];
+            }
+        },
         massageData: function massageData() {
             var count = 0;
             this.labels = [];
             this.data = [];
             for (var label in this.timeSeries) {
-                if (count > this.time - 1) {
+                if (count > this.time.length - 1) {
                     break;
                 }
                 this.labels.push(label);
@@ -62290,41 +62341,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.data = this.data.reverse();
         },
         reRender: function reRender() {
-            this.massageData();
-            this.myChart.destroy();
-            this.render({
-                type: 'line',
-                data: {
-                    labels: this.labels,
-                    datasets: [{
-                        label: this.symbol,
-                        data: this.data,
-                        backgroundColor: ['rgba(54, 162, 235, 0.2)'],
-                        borderColor: ['rgba(54, 162, 235, 1)'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    legend: false,
-                    responsive: false
-                }
-            });
+
+            if (this.stockFunction != this.time.type) {
+                this.myChart.destroy();
+                this.sendRequest();
+            } else {
+                this.massageData();
+                this.myChart.destroy();
+                this.render(this.displayData);
+            }
         }
     }
 
 }));
 
 /***/ }),
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */,
-/* 255 */,
-/* 256 */,
-/* 257 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -62342,6 +62374,12 @@ var render = function() {
               rawName: "v-model",
               value: _vm.time,
               expression: "time"
+            },
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.validData,
+              expression: "validData"
             }
           ],
           on: {
@@ -62364,11 +62402,95 @@ var render = function() {
           }
         },
         [
-          _c("option", { domProps: { value: 7 } }, [_vm._v("last 7 days")]),
+          _c(
+            "option",
+            {
+              domProps: {
+                value: { type: "TIME_SERIES_DAILY_ADJUSTED", length: 7 }
+              }
+            },
+            [_vm._v("last 7 days")]
+          ),
           _vm._v(" "),
-          _c("option", { domProps: { value: 30 } }, [_vm._v("1 month")]),
+          _c(
+            "option",
+            {
+              domProps: {
+                value: { type: "TIME_SERIES_DAILY_ADJUSTED", length: 30 }
+              }
+            },
+            [_vm._v("1 month")]
+          ),
           _vm._v(" "),
-          _c("option", { domProps: { value: 90 } }, [_vm._v("3 months")])
+          _c(
+            "option",
+            {
+              domProps: {
+                value: { type: "TIME_SERIES_DAILY_ADJUSTED", length: 90 }
+              }
+            },
+            [_vm._v("3 months")]
+          ),
+          _vm._v(" "),
+          _c(
+            "option",
+            {
+              domProps: {
+                value: { type: "TIME_SERIES_WEEKLY_ADJUSTED", length: 26 }
+              }
+            },
+            [_vm._v("6 months")]
+          ),
+          _vm._v(" "),
+          _c(
+            "option",
+            {
+              domProps: {
+                value: { type: "TIME_SERIES_WEEKLY_ADJUSTED", length: 52 }
+              }
+            },
+            [_vm._v("1 year")]
+          ),
+          _vm._v(" "),
+          _c(
+            "option",
+            {
+              domProps: {
+                value: { type: "TIME_SERIES_MONTHLY_ADJUSTED", length: 24 }
+              }
+            },
+            [_vm._v("2 years")]
+          ),
+          _vm._v(" "),
+          _c(
+            "option",
+            {
+              domProps: {
+                value: { type: "TIME_SERIES_MONTHLY_ADJUSTED", length: 36 }
+              }
+            },
+            [_vm._v("3 years")]
+          ),
+          _vm._v(" "),
+          _c(
+            "option",
+            {
+              domProps: {
+                value: { type: "TIME_SERIES_MONTHLY_ADJUSTED", length: 60 }
+              }
+            },
+            [_vm._v("5 years")]
+          ),
+          _vm._v(" "),
+          _c(
+            "option",
+            {
+              domProps: {
+                value: { type: "TIME_SERIES_MONTHLY_ADJUSTED", length: 120 }
+              }
+            },
+            [_vm._v("10 years")]
+          )
         ]
       )
     ]),

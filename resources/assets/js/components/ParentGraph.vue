@@ -17,10 +17,42 @@
 			};
 		},
 
+		computed: {
+			displayData() {
+				return {
+                         type: 'line',
+                         data: {
+                             labels: this.labels,
+                             datasets: [
+                                 {
+                                 label: this.symbol,
+                                 data: this.data,
+                                    backgroundColor: [
+                                       'rgba(54, 162, 235, 0.2)' 
+                                         
+                                         
+                                     ],
+                                     borderColor: [
+                                         'rgba(54, 162, 235, 1)',
+                                        
+                                        
+                                    ],
+                                    borderWidth: 1
+                                 }
+                             ]
+                         },
+                         options: {
+                             legend:false,
+                             responsive: false
+                         }
+                     };
+			}
+		},
+
 		methods: {
 			render(data) {
 				this.myChart = new Chart(this.$refs.canvas, data);
-	            this.legend = myChart.generateLegend();
+	            this.legend = this.myChart.generateLegend();
 			}
 		}
 

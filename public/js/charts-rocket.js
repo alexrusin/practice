@@ -43405,20 +43405,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_vue___default.a.extend({
-	data: function data() {
-		return {
-			legend: '',
-			myChart: ''
-		};
-	},
+  data: function data() {
+    return {
+      legend: '',
+      myChart: ''
+    };
+  },
 
 
-	methods: {
-		render: function render(data) {
-			this.myChart = new __WEBPACK_IMPORTED_MODULE_1_chart_js___default.a(this.$refs.canvas, data);
-			this.legend = myChart.generateLegend();
-		}
-	}
+  computed: {
+    displayData: function displayData() {
+      return {
+        type: 'line',
+        data: {
+          labels: this.labels,
+          datasets: [{
+            label: this.symbol,
+            data: this.data,
+            backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+            borderColor: ['rgba(54, 162, 235, 1)'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          legend: false,
+          responsive: false
+        }
+      };
+    }
+  },
+
+  methods: {
+    render: function render(data) {
+      this.myChart = new __WEBPACK_IMPORTED_MODULE_1_chart_js___default.a(this.$refs.canvas, data);
+      this.legend = this.myChart.generateLegend();
+    }
+  }
 
 }));
 

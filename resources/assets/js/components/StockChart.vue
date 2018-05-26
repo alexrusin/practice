@@ -1,10 +1,16 @@
 <template>
     <div>
         <div>
-            <select v-model="time" @change="reRender">
-                <option :value="7">last 7 days</option>
-                <option :value="30">1 month</option>
-                <option :value="90">3 months</option>
+            <select v-model="time" @change="reRender" v-show="validData">
+                <option :value="{type: 'TIME_SERIES_DAILY_ADJUSTED', length: 7}">last 7 days</option>
+                <option :value="{type: 'TIME_SERIES_DAILY_ADJUSTED', length: 30}">1 month</option>
+                <option :value="{type: 'TIME_SERIES_DAILY_ADJUSTED', length: 90}">3 months</option>
+                <option :value="{type: 'TIME_SERIES_WEEKLY_ADJUSTED', length: 26}">6 months</option>
+                <option :value="{type: 'TIME_SERIES_WEEKLY_ADJUSTED', length: 52}">1 year</option>
+                <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 24}">2 years</option>
+                <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 36}">3 years</option>
+                <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 60}">5 years</option>
+                <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 120}">10 years</option>
             </select>
         </div>
         <h1>{{title}}</h1>
@@ -17,71 +23,85 @@
 <script>
     import ParentGraph from './ParentGraph.vue';
     export default ParentGraph.extend ({
-    	props: ['url'],
+    	props: ['stockSymbol', 'apiKey'],
 
         data() {
             return {
+                validData: false,
                 title: '',
                 timeSeries: {},
                 labels: [],
                 data: [],
                 symbol:'',
-                time: 30
+                stockFunction: 'TIME_SERIES_DAILY_ADJUSTED',
+                time: {type: 'TIME_SERIES_DAILY_ADJUSTED', length: 90}
             };
         },
 
+       computed: {
+            url() {
+                return `https://www.alphavantage.co/query?function=${this.time.type}&symbol=${this.stockSymbol}&apikey=${this.apiKey}`;
+            }
+       },
+
     	mounted() {
-
-           axios.get(this.url)
-              .then((response) => {
-                console.log(response.data);
-                this.symbol = response.data["Meta Data"]["2. Symbol"];
-                this.title = response.data["Meta Data"]["1. Information"] + " for " + this.symbol;
-                this.timeSeries = response.data["Time Series (Daily)"];
-                this.massageData();
-
-                this.render({
-                    type: 'line',
-                    data: {
-                        labels: this.labels,
-                        datasets: [
-                            {
-                            label: this.symbol,
-                            data: this.data,
-                               backgroundColor: [
-                                  'rgba(54, 162, 235, 0.2)' 
-                                    
-                                    
-                                ],
-                                borderColor: [
-                                    'rgba(54, 162, 235, 1)',
-                                   
-                                   
-                               ],
-                               borderWidth: 1
-                            }
-                        ]
-                    },
-                    options: {
-                        legend:false,
-                        responsive: false
-                    }
-                });
-
-
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+            this.sendRequest();
+           
         }, 
 
         methods: {
+
+            sendRequest() {
+                axios.get(this.url)
+                   .then((response) => {
+                     const errorResponse = "Error Message"; 
+
+                     if(response.data[errorResponse]) {
+                        this.title = "There was an error retrieving data.";
+                        this.validData = false;
+                        return;
+                     }
+                     this.validData = true;
+                     this.processData(response.data);
+                     this.massageData();
+
+                     this.render(this.displayData);
+
+
+                   })
+                   .catch((error) => {
+                     console.log(error);
+                   });
+            },
+
+            processData(data) {
+
+                this.symbol = data["Meta Data"]["2. Symbol"];
+                this.title = data["Meta Data"]["1. Information"] + " for " + this.symbol;
+                this.stockFunction = this.time.type;
+
+                switch(this.time.type) {
+                    case 'TIME_SERIES_DAILY_ADJUSTED':
+                        this.timeSeries = data["Time Series (Daily)"];
+                        break;
+                    case 'TIME_SERIES_WEEKLY_ADJUSTED':
+                        this.timeSeries = data["Weekly Adjusted Time Series"];
+                        break;
+                    case 'TIME_SERIES_MONTHLY_ADJUSTED':
+                        this.timeSeries = data["Monthly Adjusted Time Series"];
+                        break;
+                    default:
+                        case 'TIME_SERIES_DAILY_ADJUSTED':
+                        this.timeSeries = data["Time Series (Daily)"];
+                }
+            },
+
             massageData() {
                 let count = 0;
                 this.labels = [];
                 this.data = [];
                 for (let label in this.timeSeries) {
-                    if (count > this.time-1) {
+                    if (count > this.time.length-1) {
                         break;
                     }
                     this.labels.push(label);
@@ -94,35 +114,15 @@
             },
 
             reRender() {
-                this.massageData();
-                this.myChart.destroy();
-                this.render({
-                    type: 'line',
-                    data: {
-                        labels: this.labels,
-                        datasets: [
-                            {
-                            label: this.symbol,
-                            data: this.data,
-                               backgroundColor: [
-                                  'rgba(54, 162, 235, 0.2)' 
-                                    
-                                    
-                                ],
-                                borderColor: [
-                                    'rgba(54, 162, 235, 1)',
-                                   
-                                   
-                               ],
-                               borderWidth: 1
-                            }
-                        ]
-                    },
-                    options: {
-                        legend:false,
-                        responsive: false
-                    }
-                });
+
+                if (this.stockFunction != this.time.type) {
+                    this.myChart.destroy();
+                    this.sendRequest();
+                } else {
+                    this.massageData();
+                    this.myChart.destroy();
+                    this.render(this.displayData);
+                }
             }
         }
 
