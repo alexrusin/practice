@@ -16,7 +16,11 @@
         <div id="chart-app">
 
             <div>
-                <stock-chart stock-symbol="TRIP" api-key="YPSEZZ91IMYTHW1Z"></stock-chart>
+               <currency-symbol-search></currency-symbol-search>
+            </div>
+
+             <div>
+                <symbol-search></symbol-search>
             </div>
             
         </div>

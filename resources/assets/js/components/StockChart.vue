@@ -1,21 +1,22 @@
 <template>
     <div>
-        <div>
-            <select v-model="time" @change="reRender" v-show="validData">
-                <option :value="{type: 'TIME_SERIES_DAILY_ADJUSTED', length: 7}">last 7 days</option>
-                <option :value="{type: 'TIME_SERIES_DAILY_ADJUSTED', length: 30}">1 month</option>
-                <option :value="{type: 'TIME_SERIES_DAILY_ADJUSTED', length: 90}">3 months</option>
-                <option :value="{type: 'TIME_SERIES_WEEKLY_ADJUSTED', length: 26}">6 months</option>
-                <option :value="{type: 'TIME_SERIES_WEEKLY_ADJUSTED', length: 52}">1 year</option>
-                <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 24}">2 years</option>
-                <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 36}">3 years</option>
-                <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 60}">5 years</option>
-                <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 120}">10 years</option>
-            </select>
-        </div>
         <h1>{{title}}</h1>
-        <canvas  width="800" height="600" ref="canvas"></canvas>
-        <div class="legend" v-html="legend"></div>
+            <div v-show="validData">  
+                <select v-model="time" @change="reRender">
+                    <option :value="{type: 'TIME_SERIES_DAILY_ADJUSTED', length: 7}">last 7 days</option>
+                    <option :value="{type: 'TIME_SERIES_DAILY_ADJUSTED', length: 30}">1 month</option>
+                    <option :value="{type: 'TIME_SERIES_DAILY_ADJUSTED', length: 90}">3 months</option>
+                    <option :value="{type: 'TIME_SERIES_WEEKLY_ADJUSTED', length: 26}">6 months</option>
+                    <option :value="{type: 'TIME_SERIES_WEEKLY_ADJUSTED', length: 52}">1 year</option>
+                    <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 24}">2 years</option>
+                    <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 36}">3 years</option>
+                    <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 60}">5 years</option>
+                    <option :value="{type: 'TIME_SERIES_MONTHLY_ADJUSTED', length: 120}">10 years</option>
+                </select>
+                <canvas  width="800" height="600" ref="canvas"></canvas>
+                <div class="legend" v-html="legend"></div>
+            </div>
+        </div>
 
     </div>
 </template>
@@ -23,7 +24,7 @@
 <script>
     import ParentGraph from './ParentGraph.vue';
     export default ParentGraph.extend ({
-    	props: ['stockSymbol', 'apiKey'],
+    	props: ['stockSymbol', 'apiKey', 'requestOnload'],
 
         data() {
             return {
@@ -45,7 +46,10 @@
        },
 
     	mounted() {
-            this.sendRequest();
+            if (this.requestOnload) {
+                this.sendRequest();
+            }
+            
            
         }, 
 
@@ -76,7 +80,7 @@
 
             processData(data) {
 
-                this.symbol = data["Meta Data"]["2. Symbol"];
+                this.symbol = data["Meta Data"]["2. Symbol"].toUpperCase();
                 this.title = data["Meta Data"]["1. Information"] + " for " + this.symbol;
                 this.stockFunction = this.time.type;
 
@@ -119,9 +123,10 @@
                     this.myChart.destroy();
                     this.sendRequest();
                 } else {
-                    this.massageData();
                     this.myChart.destroy();
+                    this.massageData();
                     this.render(this.displayData);
+
                 }
             }
         }
