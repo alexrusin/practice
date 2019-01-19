@@ -38,3 +38,7 @@ Route::get('/charts-stock', function () {
     return view('charts.chart-stock');
 });
 
+Route::get('/tags-input', function() {
+	return view('tags-input');
+});
+
